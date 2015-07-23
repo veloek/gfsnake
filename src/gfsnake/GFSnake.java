@@ -81,7 +81,7 @@ public class GFSnake extends GFGame {
 
         playTime = (now-startTime-pauseTime)/1000000000;
 
-        if (points/(speed*speed) > 100)
+        if (points/(speed*speed) >= 100)
             speed++;
 
         timeSinceLastUpdate += delta;
