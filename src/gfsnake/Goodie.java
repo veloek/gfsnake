@@ -19,6 +19,10 @@ public class Goodie {
     public static final int APPLE = 2;
     public static final int GRAPES = 3;
 
+    public static final int VALUE_BANANA = 10;
+    public static final int VALUE_APPLE = 50;
+    public static final int VALUE_GRAPES = 100;
+
     private Point position;
     private int value;
     private Image image;
