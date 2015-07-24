@@ -10,6 +10,7 @@ import gameframe.api.GFGame;
 import gameframe.api.GFTestFrame;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
@@ -79,12 +80,12 @@ public class GFSnake extends GFGame {
 
         playTime = (now-startTime-pauseTime)/1000000000;
 
-        if (playTime/speed > 10)
+        if (points/(speed*speed) >= 100)
             speed++;
 
         timeSinceLastUpdate += delta;
 
-        if (timeSinceLastUpdate > 100000000/speed && !paused) {
+        if (timeSinceLastUpdate > 100000000-(speed*10000000) && !paused) {
             timeToUpdate = true;
             timeSinceLastUpdate = 0;
 
@@ -129,22 +130,46 @@ public class GFSnake extends GFGame {
             String pointsStr = "Points: " + points;
             String speedStr = "Speed: " + speed;
             String runTimeStr = "Run time: " + playTime;
-            
+
             FontMetrics metrics = g.getFontMetrics();
             Rectangle2D pointsBounds = metrics.getStringBounds(pointsStr, g);
             Rectangle2D speedBounds = metrics.getStringBounds(speedStr, g);
+            Rectangle2D runTimeBounds = metrics.getStringBounds(runTimeStr, g);
+
+            g.setColor(Color.DARK_GRAY);
+            g.fillRect(0, getSize().height-cellSize,
+                    getSize().width, cellSize);
 
             g.setColor(Color.WHITE);
 
             int padding = 5;
+            int x = padding;
 
-            g.drawString(pointsStr, padding, getSize().height-5);
-            g.drawString(speedStr, padding+(int)pointsBounds.getWidth()+padding,
-                    getSize().height-5);
-            g.drawString(runTimeStr,
-                    padding+(int)pointsBounds.getWidth()+padding+
-                            (int)speedBounds.getWidth()+padding,
-                    getSize().height-5);
+            g.drawString(pointsStr, x, getSize().height-padding);
+
+            x += (int)pointsBounds.getWidth()+padding;
+            g.drawString(speedStr, x, getSize().height-padding);
+
+            x += (int)speedBounds.getWidth()+padding;
+            g.drawString(runTimeStr, x, getSize().height-padding);
+
+            x = getSize().width/2;
+            g.drawImage(GoodieFactory.IMAGES.get(Goodie.BANANA), x,
+                    getSize().height-cellSize, cellSize, cellSize, null);
+            x += cellSize;
+            g.drawString("="+Goodie.VALUE_BANANA, x, getSize().height-padding);
+
+            x += cellSize*4;
+            g.drawImage(GoodieFactory.IMAGES.get(Goodie.APPLE), x,
+                    getSize().height-cellSize, cellSize, cellSize, null);
+            x += cellSize;
+            g.drawString("="+Goodie.VALUE_APPLE, x, getSize().height-padding);
+
+            x += cellSize*4;
+            g.drawImage(GoodieFactory.IMAGES.get(Goodie.GRAPES), x,
+                    getSize().height-cellSize, cellSize, cellSize, null);
+            x += cellSize;
+            g.drawString("="+Goodie.VALUE_GRAPES, x, getSize().height-padding);
 
             if (paused) {
                 String pauseStr = "PAUSED";
@@ -177,7 +202,7 @@ public class GFSnake extends GFGame {
         Point head = snake.get(0);
 
         if (head.x < 0 || head.x >= getSize().width ||
-                head.y < 0 || head.y >= getSize().height) {
+                head.y < 0 || head.y >= getSize().height-cellSize) {
             return true;
         }
 
@@ -192,8 +217,8 @@ public class GFSnake extends GFGame {
         for (Goodie g : goodies) {
             if (g.getPosition().distance(head) == 0) {
 
-                newPieces += g.getValue();
-                points += g.getValue()*speed*10;
+                newPieces += GRID_SIZE / 10;
+                points += g.getValue();
 
                 Point tail = snake.getLast();
                 for (int i=0; i<newPieces; i++) {
@@ -252,7 +277,7 @@ public class GFSnake extends GFGame {
             boolean hit = false;
             do {
                 randomPosition = new Point(r.nextInt(getSize().width/cellSize)*cellSize,
-                        r.nextInt(getSize().height/cellSize)*cellSize);
+                        r.nextInt((getSize().height/cellSize)-1)*cellSize);
 
                 for (Point p : snake) {
                     if (p.equals(randomPosition)) {

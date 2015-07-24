@@ -9,10 +9,13 @@ package gfsnake;
 import static gfsnake.Goodie.APPLE;
 import static gfsnake.Goodie.BANANA;
 import static gfsnake.Goodie.GRAPES;
+import static gfsnake.Goodie.VALUE_APPLE;
+import static gfsnake.Goodie.VALUE_BANANA;
+import static gfsnake.Goodie.VALUE_GRAPES;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.IOException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Random;
 import javax.imageio.ImageIO;
 
@@ -23,11 +26,11 @@ import javax.imageio.ImageIO;
  */
 public class GoodieFactory {
     private static final Random R;
-    private static final Hashtable<Integer, Image> IMAGES;
+    protected static final HashMap<Integer, Image> IMAGES;
 
     static {
         R = new Random();
-        IMAGES = new Hashtable<>();
+        IMAGES = new HashMap<>();
 
         try {
             IMAGES.put(BANANA, ImageIO.read(GoodieFactory.class.getResource("banana.png")));
@@ -50,15 +53,15 @@ public class GoodieFactory {
 
         switch (type) {
             case BANANA:
-                value = 1;
+                value = VALUE_BANANA;
                 image = IMAGES.get(BANANA);
                 break;
             case APPLE:
-                value = 5;
+                value = VALUE_APPLE;
                 image = IMAGES.get(APPLE);
                 break;
             case GRAPES:
-                value = 10;
+                value = VALUE_GRAPES;
                 image = IMAGES.get(GRAPES);
                 break;
             default:
