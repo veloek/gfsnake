@@ -69,8 +69,7 @@ public class GFSnake extends GFGame {
     }
 
     @Override
-    public void update(Graphics g) {
-
+    public void update(float delta, Graphics g) {
         // Update time based on speed
         now = System.nanoTime();
         delta = now-lastUpdate;
