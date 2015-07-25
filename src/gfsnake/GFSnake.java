@@ -20,8 +20,11 @@ import java.util.LinkedList;
 import java.util.Random;
 
 /**
+ * GFSnake
  *
- * @author vegard
+ * Demo game for the Game Frame project
+ *
+ * @author Vegard Løkken <vegard@loekken.org>
  */
 public class GFSnake extends GFGame {
 
