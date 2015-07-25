@@ -71,6 +71,7 @@ public class GFSnake extends GFGame {
 
     @Override
     public void update(float delta, Graphics g) {
+
         // Update time based on speed
         now = System.nanoTime();
         delta = now-lastUpdate;
@@ -90,7 +91,7 @@ public class GFSnake extends GFGame {
             timeSinceLastUpdate = 0;
 
             if (newDirection != null) {
-                super.setDirection(newDirection);
+                super.onDirection(newDirection);
                 newDirection = null;
             }
         }
@@ -141,6 +142,7 @@ public class GFSnake extends GFGame {
                     getSize().width, cellSize);
 
             g.setColor(Color.WHITE);
+            g.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, cellSize/2));
 
             int padding = 5;
             int x = padding;
@@ -307,7 +309,7 @@ public class GFSnake extends GFGame {
     }
 
     @Override
-    public void setDirection(Direction direction) {
+    public void onDirection(Direction direction) {
         boolean ok = true;
 
         if (getDirection() != null) {
