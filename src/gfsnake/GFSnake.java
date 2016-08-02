@@ -108,6 +108,9 @@ public class GFSnake extends GFGame {
         // Check if the snake has hit any walls or itself
         if (timeToUpdate && !crashed) {
             crashed = checkCollisions();
+
+            if (crashed)
+                super.gameOver(points);
         }
 
         if (!crashed) {
@@ -188,15 +191,6 @@ public class GFSnake extends GFGame {
                 move();
                 dropGoodies();
             }
-
-        } else {
-
-            String gameOver = "GAME OVER";
-
-            g.setColor(Color.WHITE);
-            Rectangle2D bounds = g.getFontMetrics().getStringBounds(gameOver, g);
-            g.drawString(gameOver, getSize().width/2-(int)bounds.getWidth()/2,
-                    getSize().height/2-(int)bounds.getHeight()/2);
 
         }
 
